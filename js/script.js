@@ -588,6 +588,7 @@ async function displayActorDetails() {
     <div class="details-bottom">
         <h2>Actor Info</h2>
         <ul>
+        ${actor.deathday ? `<li><span class="text-secondary">Passed Away At:</span> ${getAge(actor.birthday, actor.deathday)}</li>` : `<li><span class="text-secondary">Age:</span> ${getAge(actor.birthday)}</li> `}
         <li><span class="text-secondary">Birthday:</span> ${actor.birthday}</li>
         <li><span class="text-secondary">Place of Birth:</span> ${actor.place_of_birth} </li>
         ${actor.deathday ? `<li><span class="text-secondary">Passed Away: </span> ${actor.deathday}</li>` : ``}
@@ -913,6 +914,18 @@ function populateShowGrid(shows) {
     `;
     showGrid.appendChild(div);
   });
+}
+
+// Get age actor
+function getAge(dateString, deathString = null) {
+  if (deathString === null) {
+    const birthday = new Date(dateString).getTime();
+    return Math.floor((Date.now() - birthday) / 31557600000);
+  } else {
+    const birthday = new Date(dateString).getTime();
+    const deathDay = new Date(deathString).getTime();
+    return Math.floor((deathDay - birthday) / 31557600000);
+  }
 }
 
 //============================================================

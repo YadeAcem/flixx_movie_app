@@ -86,7 +86,15 @@ async function getWatchProvider(type, id) {
     global.options,
   );
   const data = await response.json();
-  return data.results["NL"].flatrate;
+
+  // check if their are providers
+  if (data.results["NL"] === undefined) {
+    return null;
+  } else if (data.results["NL"].flatrate === undefined) {
+    return null;
+  } else {
+    return data.results["NL"].flatrate;
+  }
 }
 
 // Display 20 popular Movies
@@ -165,7 +173,7 @@ async function displayMovieDetails() {
   const movieId = window.location.search.split("=")[1]; // split the string on = and only get the id
   const movie = await fetchAPIData(`movie/${movieId}`);
 
-  providers = await getWatchProvider("movie", movie.id);
+  const providers = await getWatchProvider("movie", movie.id);
 
   // Overlay for background image
   displayBackgroundImage("movie", movie.backdrop_path);
@@ -214,25 +222,31 @@ async function displayMovieDetails() {
         <li><span class="text-secondary">Runtime:</span> ${movie.runtime} minutes</li>
         <li><span class="text-secondary">Status:</span> ${movie.status}</li>
 
-        <li>
-            <span class="text-secondary"></span>
-            <div class="watch-on-list">
-            ${providers
-              .map(
-                (provider) => `
-                <a href="https://www.${provider.provider_name}.com" class="provider-link">
-                <div class="provider-card">
-                    <img src="https://image.tmdb.org/t/p/w200${provider.logo_path}" 
-                        alt="${provider.provider_name}" 
-                        class="provider-logo" />
-                    <span class="provider-name">${provider.provider_name}</span>
+            ${
+              providers
+                ? `
+              <li>
+              <span class="text-secondary"></span>
+                <div class="watch-on-list">
+                ${providers
+                  .map(
+                    (provider) => `
+                    <a href="https://www.${provider.provider_name.replaceAll(" ", "")}.com" class="provider-link" target="_blank">
+                    <div class="provider-card">
+                        <img src="https://image.tmdb.org/t/p/w200${provider.logo_path}" 
+                            alt="${provider.provider_name}" 
+                            class="provider-logo" />
+                        <span class="provider-name">${provider.provider_name}</span>
+                    </div>
+                    </a>
+                `,
+                  )
+                  .join("")}
                 </div>
-                </a>
-            `,
-              )
-              .join("")}
-            </div>
-        </li>
+              </li>`
+                : ``
+            }
+
         </ul>
 
     <h4>Cast</h4>
@@ -273,7 +287,7 @@ async function displayTvDetails() {
   const tvId = window.location.search.split("=")[1]; // split the string on = and only get the id
   const show = await fetchAPIData(`tv/${tvId}`);
 
-  const results = getWatchProvider("tv", tvId);
+  const providers = await getWatchProvider("tv", show.id);
 
   // Overlay for background image
   displayBackgroundImage("tv", show.backdrop_path);
@@ -324,6 +338,26 @@ async function displayTvDetails() {
               <span class="text-secondary">Last Episode To Air:</span> ${show.last_episode_to_air.name}
             </li>
             <li><span class="text-secondary">Status:</span> ${show.status}</li>
+
+            <li>
+            <span class="text-secondary"></span>
+            <div class="watch-on-list">
+            ${providers
+              .map(
+                (provider) => `
+                <a href="https://www.${provider.provider_name.replaceAll(" ", "")}.com" class="provider-link" target="_blank">
+                <div class="provider-card">
+                    <img src="https://image.tmdb.org/t/p/w200${provider.logo_path}" 
+                        alt="${provider.provider_name}" 
+                        class="provider-logo" />
+                    <span class="provider-name">${provider.provider_name}</span>
+                </div>
+                </a>
+            `,
+              )
+              .join("")}
+            </div>
+        </li>
           </ul>
 
 
@@ -841,7 +875,13 @@ function displayPagination(divId) {
 // Populate actor movies grid
 function populateMovieGrid(movies) {
   const movieGrid = document.getElementById("movies-grid");
-  movies.forEach((movie) => {
+
+  // Sort movies alphabetically by title
+  const sortedMovies = movies.slice().sort((a, b) => {
+    return a.title.toLowerCase().localeCompare(b.title.toLowerCase());
+  });
+
+  sortedMovies.forEach((movie) => {
     const div = document.createElement("div");
     div.classList.add("cast-card");
     div.innerHTML = `
@@ -857,7 +897,12 @@ function populateMovieGrid(movies) {
 // Populate actor Tv Shows grid
 function populateShowGrid(shows) {
   const showGrid = document.getElementById("tv-grid");
-  shows.forEach((show) => {
+  // Sort movies alphabetically by title
+  const sortedShows = shows.slice().sort((a, b) => {
+    return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+  });
+
+  sortedShows.forEach((show) => {
     const div = document.createElement("div");
     div.classList.add("cast-card");
     div.innerHTML = `

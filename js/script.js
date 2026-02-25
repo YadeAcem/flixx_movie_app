@@ -12,7 +12,7 @@ const global = {
   },
   api: {
     apiKey: "7ed33d7488e73ec9c7e8bc670c4c4a5a",
-    apiUrl: "https://api.themoviedb.org/3/",
+    apiUrl: "http://api.themoviedb.org/3/",
   },
   options: {
     method: "GET",
@@ -101,7 +101,7 @@ async function displayPopularMovies() {
               movie.poster_path
                 ? `            
                 <img
-                src="https://image.tmdb.org/t/p/w500${movie.poster_path}"
+                src="http://image.tmdb.org/t/p/w500${movie.poster_path}"
                 class="card-img-top"
                 alt="${movie.title}"
                 />`
@@ -137,7 +137,7 @@ async function displayPopularSeries() {
               show.poster_path
                 ? `            
                 <img
-                src="https://image.tmdb.org/t/p/w500${show.poster_path}"
+                src="http://image.tmdb.org/t/p/w500${show.poster_path}"
                 class="card-img-top"
                 alt="${show.name}"
                 />`
@@ -177,7 +177,7 @@ async function displayMovieDetails() {
           movie.poster_path
             ? `            
             <img
-            src="https://image.tmdb.org/t/p/w500${movie.poster_path}"
+            src="http://image.tmdb.org/t/p/w500${movie.poster_path}"
             class="card-img-top"
             alt="${movie.title}"
             />`
@@ -220,9 +220,9 @@ async function displayMovieDetails() {
             ${providers
               .map(
                 (provider) => `
-                <a href="https://www.${provider.provider_name}.com" class="provider-link">
+                <a href="http://www.${provider.provider_name}.com" class="provider-link">
                 <div class="provider-card">
-                    <img src="https://image.tmdb.org/t/p/w200${provider.logo_path}" 
+                    <img src="http://image.tmdb.org/t/p/w200${provider.logo_path}" 
                         alt="${provider.provider_name}" 
                         class="provider-logo" />
                     <span class="provider-name">${provider.provider_name}</span>
@@ -245,7 +245,7 @@ async function displayMovieDetails() {
             <a href="actor-detail.html?id=${cast.id}">
             <img src="${
               cast.profile_path
-                ? `https://image.tmdb.org/t/p/w500${cast.profile_path}`
+                ? `http://image.tmdb.org/t/p/w500${cast.profile_path}`
                 : "images/no-image.jpg"
             }" alt="${cast.name}" />
             </a>
@@ -287,7 +287,7 @@ async function displayTvDetails() {
               show.poster_path
                 ? `            
                 <img
-                src="https://image.tmdb.org/t/p/w500${show.poster_path}"
+                src="http://image.tmdb.org/t/p/w500${show.poster_path}"
                 class="card-img-top"
                 alt="${show.name}"
                 />`
@@ -336,7 +336,7 @@ async function displayTvDetails() {
                 <a href="actor-detail.html?id=${cast.id}">
                 <img src="${
                   cast.profile_path
-                    ? `https://image.tmdb.org/t/p/w500${cast.profile_path}`
+                    ? `http://image.tmdb.org/t/p/w500${cast.profile_path}`
                     : "images/no-image.jpg"
                 }" 
                     alt="${cast.name}"/>
@@ -367,7 +367,7 @@ async function displayMovieSlider() {
     div.classList.add("swiper-slide");
     div.innerHTML = `
             <a href="movie-details.html?id=${movie.id}">
-              <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}" />
+              <img src="http://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}" />
             </a>
             <h4 class="${movie.title}">
               <i class="fas fa-star text-secondary"></i> ${movie.vote_average.toFixed(1)} / 10
@@ -470,7 +470,7 @@ async function displayPopularActor() {
               actor.profile_path
                 ? `            
                 <img
-                src="https://image.tmdb.org/t/p/w500${actor.profile_path}"
+                src="http://image.tmdb.org/t/p/w500${actor.profile_path}"
                 class="card-img-top"
                 alt="${actor.name}"
                 />`
@@ -517,7 +517,7 @@ async function displayActorDetails() {
           actor.profile_path
             ? `            
             <img
-            src="https://image.tmdb.org/t/p/w500${actor.profile_path}"
+            src="http://image.tmdb.org/t/p/w500${actor.profile_path}"
             class="card-img-top"
             alt="${actor.name}"
             />`
@@ -620,7 +620,7 @@ function addCommasToNumber(number) {
 // Display Backdrop on details pages
 function displayBackgroundImage(type, backgroundPath) {
   const overlayDiv = document.createElement("div");
-  overlayDiv.style.background = `url(https://image.tmdb.org/t/p/original/${backgroundPath})`;
+  overlayDiv.style.background = `url(http://image.tmdb.org/t/p/original/${backgroundPath})`;
   overlayDiv.style.backgroundSize = "cover";
   overlayDiv.style.backgroundPosition = "center";
   overlayDiv.style.backgroundRepeat = "no-repeat";
@@ -694,7 +694,7 @@ function displaySearchResults(results) {
               result.poster_path
                 ? `            
                 <img
-                src="https://image.tmdb.org/t/p/w500${result.poster_path}"
+                src="http://image.tmdb.org/t/p/w500${result.poster_path}"
                 class="card-img-top"
                 alt=" ${
                   global.search.type === "movie"
@@ -760,7 +760,7 @@ function displayActorResults(results) {
               actor.profile_path
                 ? `            
                 <img
-                src="https://image.tmdb.org/t/p/w500${actor.profile_path}"
+                src="http://image.tmdb.org/t/p/w500${actor.profile_path}"
                 class="card-img-top"
                 alt="${actor.name}"
                 />`
@@ -846,7 +846,7 @@ function populateMovieGrid(movies) {
     div.classList.add("cast-card");
     div.innerHTML = `
       <a href="movie-details.html?id=${movie.id}">
-        <img src="${movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : "images/no-image.jpg"}" alt="${movie.title}" />
+        <img src="${movie.poster_path ? `http://image.tmdb.org/t/p/w500${movie.poster_path}` : "images/no-image.jpg"}" alt="${movie.title}" />
       </a>
       <p class="cast-character">${movie.title}</p>
     `;
@@ -862,7 +862,7 @@ function populateShowGrid(shows) {
     div.classList.add("cast-card");
     div.innerHTML = `
       <a href="tv-details.html?id=${show.id}">
-        <img src="${show.poster_path ? `https://image.tmdb.org/t/p/w500${show.poster_path}` : "images/no-image.jpg"}" alt="${show.title}" />
+        <img src="${show.poster_path ? `http://image.tmdb.org/t/p/w500${show.poster_path}` : "images/no-image.jpg"}" alt="${show.title}" />
       </a>
       <p class="cast-character">${show.name}</p>
     `;
